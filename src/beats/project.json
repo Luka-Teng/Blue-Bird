@@ -1,0 +1,8 @@
+{
+  "name": "Lasers",
+  "title": "lasers",
+  "author": "Karl",
+  "entry": "index.js",
+  "template": "index.html",
+  "filename": "index.html"
+}
