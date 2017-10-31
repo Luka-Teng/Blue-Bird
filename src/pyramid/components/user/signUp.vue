@@ -57,8 +57,7 @@
                       name="father_id"
                       label="Father ID"
                       id="father_id"
-                      v-model="father_id"
-                      required></v-text-field>
+                      v-model="father_id"></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -118,13 +117,6 @@
           username: this.username,
           father_id: this.father_id
         })
-      }
-    },
-    watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
       }
     }
   }

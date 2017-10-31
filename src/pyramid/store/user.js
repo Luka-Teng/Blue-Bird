@@ -34,6 +34,12 @@ export default {
               father_id: payload.father_id
             }
             return userData
+          }).catch((error) => {
+            commit('setError', error)
+            console.log(error)
+            return firebase.auth().currentUser.delete().then(() => {
+              return null
+            })
           })
         })
         .then((userData) => {
