@@ -1,7 +1,7 @@
 {
-  "name": "Lasers",
-  "title": "lasers",
-  "author": "Karl",
+  "name": "pyramid",
+  "title": "pyramid",
+  "author": "Luka",
   "entry": "index.js",
   "template": "index.html",
   "filename": "index.html"
