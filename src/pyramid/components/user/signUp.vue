@@ -53,6 +53,16 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
+                    <v-text-field
+                      name="father_id"
+                      label="Father ID"
+                      id="father_id"
+                      v-model="father_id"
+                      required></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
                     <v-btn type="submit"
                       :disabled="!isValid || loading"
                       :loading="loading"
@@ -81,7 +91,8 @@
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        father_id: ''
       }
     },
     computed: {
@@ -101,7 +112,12 @@
         signUserUp: 'signUserUp'
       }),
       onSignup () {
-        this.signUserUp({email: this.email, password: this.password, username: this.username})
+        this.signUserUp({
+          email: this.email,
+          password: this.password,
+          username: this.username,
+          father_id: this.father_id
+        })
       }
     },
     watch: {

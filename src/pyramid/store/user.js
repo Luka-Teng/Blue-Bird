@@ -25,29 +25,20 @@ export default {
         })
         .then(userId => {
           return firebase.database().ref('users/'+userId).set({
-            name: payload.username
+            name: payload.username,
+            father_id: payload.father_id
           }).then(() => {
-            return userId
+            const userData={
+              id: userId,
+              name: payload.username,
+              father_id: payload.father_id
+            }
+            return userData
           })
-        })
-        .then((userId) => {
-          return firebase.database().ref('users/'+userId).once('value')
-            .then((data) => {
-              const obj = data.val()
-              const userData={
-                id: userId,
-                name: obj.name
-              }
-              return userData
-            })
         })
         .then((userData) => {
           commit('setLoading', false)
-          const newUser = {
-            id: userData.id,
-            name: userData.name
-          }
-          commit('setUser', newUser)
+          commit('setUser', userData)
         })
         .catch(error => {
           commit('setLoading', false)
@@ -68,18 +59,15 @@ export default {
               const obj = data.val()
               const userData={
                 id: userId,
-                name: obj.name
+                name: obj.name,
+                father_id: obj.father_id
               }
               return userData
             })
         })
         .then((userData) => {
           commit('setLoading', false)
-          const newUser = {
-            id: userData.id,
-            name: userData.name
-          }
-          commit('setUser', newUser)
+          commit('setUser', userData)
         })
         .catch(error => {
           commit('setLoading', false)
@@ -94,7 +82,8 @@ export default {
           const obj = data.val()
           const userData={
             id: payload.uid,
-            name: obj.name
+            name: obj.name,
+            father_id: obj.father_id
           }
           return userData
         })

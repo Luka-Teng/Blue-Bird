@@ -3,7 +3,7 @@ export default {
     loading: false,
     error: null
   },
-  getter: {
+  getters: {
     loading (state) {
       return state.loading
     },
