@@ -27,6 +27,9 @@ export default {
     },
     loadUsers (state, payload) {
       state.allUsers = payload
+    },
+    setAvatar (state, payload) {
+      state.user.avatar = payload
     }
   },
   actions: {
@@ -94,7 +97,8 @@ export default {
             id: payload,
             name: obj.name,
             father_id: obj.father_id,
-            level: obj.level
+            level: obj.level,
+            avatar: obj.avatar ? obj.avatar : null
           }
           return userData
         })
@@ -117,7 +121,8 @@ export default {
               id: key,
               name: users[key].name,
               father_id: users[key].father_id,
-              level: users[key].level
+              level: users[key].level,
+              avatar: users[key].avatar ? users[key].avatar : null
             })
             allUsers = allUsers.sort((a, b) => {
               return a.level > b.level
@@ -141,6 +146,29 @@ export default {
           commit('setError', error)
           console.log(error)
         })
+    },
+    uploadAvatar ({commit}, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      let avatar
+      const userId = payload.userId
+      const filename = payload.image.name
+      const ext = filename.slice(filename.lastIndexOf('.'))
+      const ref = firebase.storage().ref()
+      return ref.child("avatars/" + filename + userId + '.' + ext).put(payload.image)
+      .then( (fileData) => {
+        avatar = fileData.metadata.downloadURLs[0]
+        return firebase.database().ref('users').child(userId).update({avatar: avatar})
+      })
+      .then(() => {
+        commit('setAvatar', avatar)
+        commit('setLoading', false)
+      })
+      .catch(error => {
+        commit('setError', error)
+        commit('setLoading', false)
+        console.log(error)
+      })
     }
   }
 }

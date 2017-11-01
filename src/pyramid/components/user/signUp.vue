@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-layout row>
+  <v-container fluid>
+    <v-layout row wrap>
       <v-flex xs9>
         <v-card>
           <v-card-text>

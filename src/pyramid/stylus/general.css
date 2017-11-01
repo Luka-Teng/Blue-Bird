@@ -2,6 +2,10 @@
 .pure--text{
   color:#fff !important;
 }
+/*get position relative*/
+.rel-pos{
+  position: relative !important;
+}
 /*loader style*/
 .custom-loader {
   animation: loader 1s infinite;

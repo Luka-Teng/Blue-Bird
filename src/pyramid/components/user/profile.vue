@@ -1,11 +1,153 @@
 <template>
-  <div>
-    this is profile page
-  </div>
+  <v-container fluid>
+    <v-layout row wrap>
+      <v-flex xs2>
+        <v-avatar
+          :tile="tile"
+          :size="avatarSize"
+          class="grey lighten-4"
+        >
+          <img :src="avatar_url" alt="avatar">
+        </v-avatar>
+      </v-flex>
+      <v-flex xs10 pl-5 class="rel-pos">
+        <v-card color="cyan darken-2" class="white--text">
+          <v-card-title primary-title>
+            <div>
+              <div class="headline mb-3">{{user.name}}</div>
+              <span class="white--text">Hello, your current level is {{user.level}}.</span>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn flat color="white" @click="triggerUpload">Edit</v-btn>
+            <v-btn flat color="white">Return</v-btn>
+          </v-card-actions>
+        </v-card>
+        <div class="level-font">
+          <i>{{user.level}}</i>
+        </div>
+      </v-flex>
+    </v-layout>
+    <v-layout row v-if="show_upload">
+      <v-spacer></v-spacer>
+      <v-flex xs10 class="mt-3 pl-5 rel-pos">
+        <v-card color="blue-grey darken-2" class="white--text">
+          <v-flex xs3 class="ml-3 pt-3">
+            <v-avatar
+              size="150px">
+              <img :src="imageUrl" width="100%">
+            </v-avatar>
+          </v-flex>
+          <v-card-actions>
+            <v-btn raised flat dark @click="onPickFile">Upload Avatar</v-btn>
+            <v-btn
+              raised
+              flat
+              dark
+              @click="onConfirm"
+              :disabled="loading"
+              :loading="loading">
+                Confirm
+                <span slot="loader" class="custom-loader">
+                  <v-icon light>cached</v-icon>
+                </span>
+            </v-btn>
+            <input
+              type="file"
+              style="display: none"
+              ref="fileInput"
+              accept="image/*"
+              @change="onFilePicked">
+          </v-card-actions>
+        </v-card>
+        <div class="level-font">
+          <i>{{user.level}}</i>
+        </div>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-  import firebase from 'firebase'
+  import * as firebase from 'firebase'
+  import {mapGetters, mapActions} from 'vuex'
   export default {
+    data () {
+      return {
+        tile: false,
+        avatarSize: '100%',
+        avatar_url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510125680&di=b775b2cba2bf7195b6a944aa9ece2ff0&imgtype=jpg&er=1&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201602%2F27%2F20160227192212_SmNWM.jpeg',
+        show_upload: false,
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/alter-time-line.png?alt=media&token=605f3c22-42fe-4e0f-a350-3d1344da40f6",
+        image: null
+      }
+    },
+    computed: {
+      ...mapGetters({
+        user: 'user',
+        loading: 'loading',
+      })
+    },
+    mounted () {
+      if (this.user.avatar) {
+        this.avatar_url = this.user.avatar
+      }
+    },
+    watch: {
+      user: {
+        handler (value) {
+          this.avatar_url = value.avatar
+        },
+        deep: true
+      }
+    },
+    methods: {
+      ...mapActions({
+        uploadAvatar: 'uploadAvatar'
+      }),
+      triggerUpload () {
+        this.show_upload = !this.show_upload
+      },
+      onPickFile () {
+        this.$refs.fileInput.click()
+      },
+      onFilePicked (event) {
+        const files = event.target.files
+        let filename = files[0].name
+        if (filename.lastIndexOf('.') <= 0) {
+          return alert('Please add a valid file!')
+        }
+        const fileReader = new FileReader()
+        fileReader.addEventListener('load', () => {
+          this.imageUrl = fileReader.result
+        })
+        fileReader.readAsDataURL(files[0])
+        this.image = files[0]
+      },
+      onConfirm () {
+        this.uploadAvatar({
+          userId: this.user.id,
+          image: this.image
+        }).then(() => {
+          this.show_upload = false
+        })
+      }
+    }
   }
 </script>
+
+<style scoped>
+  .upload-field{
+    border: 1px dashed #aaa;
+    margin-top: 30px;
+    padding: 20px;
+  }
+  .level-font{
+     position: absolute;
+     top: 22px;
+     right: 9%;
+     color: #fff;
+     font-weight: bold;
+     font-size: 82px;
+  }
+</style>
