@@ -84,6 +84,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import * as firbase from 'firebase'
   export default {
     data () {
       return {
@@ -97,7 +98,7 @@
     computed: {
       ...mapGetters({
         loading: 'loading',
-        user: 'user'
+        user_key: 'user_key'
       }),
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
@@ -117,6 +118,9 @@
           username: this.username,
           father_id: this.father_id
         })
+      },
+      getLevel () {
+
       }
     }
   }

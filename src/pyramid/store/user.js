@@ -3,16 +3,30 @@ import router from '../router'
 
 export default {
   state: {
-    user: null
+    user_key: null,
+    user: null,
+    allUsers:null
   },
   getters: {
     user (state) {
       return state.user
+    },
+    user_key (state) {
+      return state.user_key
+    },
+    allUsers (state) {
+      return state.allUsers
     }
   },
   mutations: {
     setUser (state, payload) {
       state.user = payload
+    },
+    setUserKey (state, payload) {
+      state.user_key = payload
+    },
+    loadUsers (state, payload) {
+      state.allUsers = payload
     }
   },
   actions: {
@@ -28,12 +42,7 @@ export default {
             name: payload.username,
             father_id: payload.father_id
           }).then(() => {
-            const userData={
-              id: userId,
-              name: payload.username,
-              father_id: payload.father_id
-            }
-            return userData
+            return userId
           }).catch((error) => {
             commit('setError', error)
             console.log(error)
@@ -42,9 +51,9 @@ export default {
             })
           })
         })
-        .then((userData) => {
+        .then((userId) => {
           commit('setLoading', false)
-          commit('setUser', userData)
+          commit('setUserKey', userId)
         })
         .catch(error => {
           commit('setLoading', false)
@@ -60,20 +69,8 @@ export default {
           return user.uid
         })
         .then((userId) => {
-          return firebase.database().ref('users/'+userId).once('value')
-            .then((data) => {
-              const obj = data.val()
-              const userData={
-                id: userId,
-                name: obj.name,
-                father_id: obj.father_id
-              }
-              return userData
-            })
-        })
-        .then((userData) => {
           commit('setLoading', false)
-          commit('setUser', userData)
+          commit('setUserKey', userId)
         })
         .catch(error => {
           commit('setLoading', false)
@@ -82,12 +79,18 @@ export default {
         })
     },
     autoSignIn ({commit}, payload) {
-      commit('clearError')
-      firebase.database().ref('users/'+payload.uid).once('value')
+      commit('setUserKey', payload.uid)
+    },
+    loadUser ({commit}, payload) {
+      if (!payload) {
+        commit('setUser', null)
+        return
+      }
+      firebase.database().ref('users/'+payload).once('value')
         .then((data) => {
           const obj = data.val()
           const userData={
-            id: payload.uid,
+            id: payload,
             name: obj.name,
             father_id: obj.father_id
           }
@@ -101,11 +104,32 @@ export default {
           console.log(error)
         })
     },
+    loadUsers ({commit}) {
+      commit('clearError')
+      firebase.database().ref('users').once('value')
+        .then((data) => {
+          const users = data.val()
+          const allUsers = []
+          for (let key in users) {
+            allUsers.push({
+              id: key,
+              name: users[key].name,
+              father_id: users[key].father_id,
+              level: users[key].level
+            })
+          }
+          commit('loadUsers', allUsers)
+        })
+        .catch(error => {
+          commit('setError', error)
+          console.log(error)
+        })
+    },
     logout ({commit}) {
       commit('clearError')
       firebase.auth().signOut()
         .then(() => {
-          commit('setUser', null)
+          commit('setUserKey', null)
           router.push('/')
         })
         .catch((error) => {

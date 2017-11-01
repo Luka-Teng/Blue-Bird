@@ -76,10 +76,10 @@
 		},
 		computed: {
 			...mapGetters({
-				user: 'user'
+				user_key: 'user_key'
 			}),
 			isLoggedIn () {
-				return this.user !== null && this.user !== undefined
+				return this.user_key !== null && this.user_key !== undefined
 			},
 			items () {
 				let items = [

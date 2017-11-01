@@ -8,6 +8,7 @@ import store from './store'
 import * as firebase from 'firebase'
 import './stylus/main.styl'
 import alert from './components/shared/alert'
+import {mapGetters, mapActions} from 'vuex'
 
 Vue.component('alert', alert)
 Vue.use(Vuetify)
@@ -33,5 +34,21 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
       }
     })
+  },
+  computed: {
+    ...mapGetters({
+      user_key: 'user_key'
+    })
+  },
+  methods: {
+    ...mapActions({
+      loadUser: 'loadUser'
+    })
+  },
+  watch: {
+    user_key (value) {
+      this.$router.push('/')
+      this.loadUser(value)
+    }
   }
 })
