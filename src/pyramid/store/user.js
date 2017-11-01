@@ -40,7 +40,8 @@ export default {
         .then(userId => {
           return firebase.database().ref('users/'+userId).set({
             name: payload.username,
-            father_id: payload.father_id
+            father_id: payload.father_id,
+            level: payload.level
           }).then(() => {
             return userId
           }).catch((error) => {
@@ -92,7 +93,8 @@ export default {
           const userData={
             id: payload,
             name: obj.name,
-            father_id: obj.father_id
+            father_id: obj.father_id,
+            level: obj.level
           }
           return userData
         })
@@ -109,13 +111,16 @@ export default {
       firebase.database().ref('users').once('value')
         .then((data) => {
           const users = data.val()
-          const allUsers = []
+          let allUsers = []
           for (let key in users) {
             allUsers.push({
               id: key,
               name: users[key].name,
               father_id: users[key].father_id,
               level: users[key].level
+            })
+            allUsers = allUsers.sort((a, b) => {
+              return a.level > b.level
             })
           }
           commit('loadUsers', allUsers)

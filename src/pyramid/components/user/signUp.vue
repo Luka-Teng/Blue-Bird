@@ -53,11 +53,22 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-text-field
+                    <v-select
                       name="father_id"
                       label="Father ID"
                       id="father_id"
-                      v-model="father_id"></v-text-field>
+                      :items="select_items"
+                      v-model="father_id"></v-select>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      name="level"
+                      label="Level"
+                      id="level"
+                      v-model="level"
+                      disabled></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -92,35 +103,56 @@
         email: '',
         password: '',
         confirmPassword: '',
-        father_id: ''
+        father_id: '',
+        level: ''
       }
     },
     computed: {
       ...mapGetters({
         loading: 'loading',
-        user_key: 'user_key'
+        user_key: 'user_key',
+        users: 'allUsers'
       }),
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
       },
       isValid () {
         return this.email !== '' && this.password !== '' && this.confirmPassword !== '' && this.comparePasswords === ''
+      },
+      select_items () {
+        if (this.users){
+          return this.users.map((item) => {
+            return {
+              text: item.id + ' / ' + item.name + ' / ' + item.level,
+              value: item.id
+            }
+          })
+        }
       }
     },
     methods: {
       ...mapActions({
-        signUserUp: 'signUserUp'
+        signUserUp: 'signUserUp',
+        loadUsers: 'loadUsers'
       }),
       onSignup () {
         this.signUserUp({
           email: this.email,
           password: this.password,
           username: this.username,
-          father_id: this.father_id
+          father_id: this.father_id,
+          level: this.level
         })
-      },
-      getLevel () {
-
+      }
+    },
+    created () {
+      this.loadUsers()
+    },
+    watch: {
+      father_id (value) {
+        this.level = parseInt(this.users.find((user) => {
+          return user.id === value
+        }).level) + 1
       }
     }
   }
