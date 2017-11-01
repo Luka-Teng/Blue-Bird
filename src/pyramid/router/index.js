@@ -5,6 +5,7 @@ import signIn from './../components/user/signIn'
 import profile from './../components/user/profile'
 import home from './../components/home'
 import about from './../components/about'
+import AuthGuard from './auth_guard'
 
 Vue.use(Router)
 
@@ -33,7 +34,8 @@ const router = new Router({
     {
       path: 'profile',
       name: 'profile',
-      component: profile
+      component: profile,
+      beforeEnter: AuthGuard
     }
   ]
 })
