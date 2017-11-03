@@ -11,6 +11,7 @@
 	      <v-list-tile
 					v-for="item in items"
 					:key="item.title"
+					class="nav-link"
 					:to="{ name: item.link}">
 	        <v-list-tile-action>
 	          <v-icon dark>{{ item.icon }}</v-icon>
@@ -105,7 +106,10 @@
 </script>
 
 <style>
-.application--light a {
-  color: #444;
+.nav-link>a.router-link-exact-active {
+	color: #444 !important;
+}
+.nav-link>a:not(.router-link-exact-active) {
+	color: #fff !important;
 }
 </style>

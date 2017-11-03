@@ -10,29 +10,30 @@ import AuthGuard from './auth_guard'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
-      path: 'signUp',
+      path: '/pyramid/signUp',
       name: 'signUp',
       component: signUp
     },
     {
-      path: '/',
+      path: '/pyramid',
       name: 'home',
       component: home
     },
     {
-      path: 'signIn',
+      path: '/pyramid/signIn',
       name: 'signIn',
       component: signIn
     },
     {
-      path: 'about',
+      path: '/pyramid/about',
       name: 'about',
       component: about
     },
     {
-      path: 'profile',
+      path: '/pyramid/profile',
       name: 'profile',
       component: profile,
       beforeEnter: AuthGuard

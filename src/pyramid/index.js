@@ -42,13 +42,14 @@ new Vue({
   },
   methods: {
     ...mapActions({
-      loadUser: 'loadUser'
+      loadUser: 'loadUser',
+      loadUsers: 'loadUsers'
     })
   },
   watch: {
     user_key (value) {
-      this.$router.push('/')
       this.loadUser(value)
+      this.loadUsers()
     }
   }
 })

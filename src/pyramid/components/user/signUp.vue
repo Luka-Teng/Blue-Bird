@@ -141,7 +141,8 @@
           password: this.password,
           username: this.username,
           father_id: this.father_id,
-          level: this.level
+          level: this.level,
+          avatar: 'https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/avatar.jpg?alt=media&token=1a14dc97-4699-4314-a2d6-61b2ed6fd6f6'
         })
       }
     },
@@ -153,6 +154,9 @@
         this.level = parseInt(this.users.find((user) => {
           return user.id === value
         }).level) + 1
+      },
+      user_key (value) {
+        this.$router.push('/pyramid')
       }
     }
   }

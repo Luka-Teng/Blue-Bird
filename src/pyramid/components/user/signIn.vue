@@ -63,7 +63,7 @@
     computed: {
       ...mapGetters({
         loading: 'loading',
-        user: 'user'
+        user_key: 'user_key'
       }),
       isValid () {
         return this.email !== '' && this.password !== ''
@@ -78,10 +78,8 @@
       }
     },
     watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
+      user_key (value) {
+        this.$router.push('/pyramid')
       }
     }
   }

@@ -44,7 +44,8 @@ export default {
           return firebase.database().ref('users/'+userId).set({
             name: payload.username,
             father_id: payload.father_id,
-            level: payload.level
+            level: payload.level,
+            avatar: payload.avatar
           }).then(() => {
             return userId
           }).catch((error) => {
@@ -140,7 +141,7 @@ export default {
       firebase.auth().signOut()
         .then(() => {
           commit('setUserKey', null)
-          router.push('/')
+          router.push('/pyramid')
         })
         .catch((error) => {
           commit('setError', error)
@@ -153,9 +154,8 @@ export default {
       let avatar
       const userId = payload.userId
       const filename = payload.image.name
-      const ext = filename.slice(filename.lastIndexOf('.'))
       const ref = firebase.storage().ref()
-      return ref.child("avatars/" + filename + userId + '.' + ext).put(payload.image)
+      return ref.child("avatars/" + userId + filename).put(payload.image)
       .then( (fileData) => {
         avatar = fileData.metadata.downloadURLs[0]
         return firebase.database().ref('users').child(userId).update({avatar: avatar})

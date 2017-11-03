@@ -20,7 +20,7 @@
           </v-card-title>
           <v-card-actions>
             <v-btn flat color="white" @click="triggerUpload">Edit</v-btn>
-            <v-btn flat color="white">Return</v-btn>
+            <v-btn flat color="white" @click="goBack" >Return</v-btn>
           </v-card-actions>
         </v-card>
         <div class="level-font">
@@ -76,7 +76,7 @@
       return {
         tile: false,
         avatarSize: '100%',
-        avatar_url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1510125680&di=b775b2cba2bf7195b6a944aa9ece2ff0&imgtype=jpg&er=1&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201602%2F27%2F20160227192212_SmNWM.jpeg',
+        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/avatar.jpg?alt=media&token=1a14dc97-4699-4314-a2d6-61b2ed6fd6f6',
         show_upload: false,
         imageUrl: "https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/alter-time-line.png?alt=media&token=605f3c22-42fe-4e0f-a350-3d1344da40f6",
         image: null
@@ -103,7 +103,8 @@
     },
     methods: {
       ...mapActions({
-        uploadAvatar: 'uploadAvatar'
+        uploadAvatar: 'uploadAvatar',
+        loadUsers: 'loadUsers'
       }),
       triggerUpload () {
         this.show_upload = !this.show_upload
@@ -130,7 +131,11 @@
           image: this.image
         }).then(() => {
           this.show_upload = false
+          this.loadUsers()
         })
+      },
+      goBack () {
+        this.$router.back()
       }
     }
   }
