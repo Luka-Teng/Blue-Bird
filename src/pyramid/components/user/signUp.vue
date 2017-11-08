@@ -74,13 +74,9 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn type="submit"
-                      :disabled="!isValid || loading"
-                      :loading="loading"
+                      :disabled="!isValid"
                       class="blue darken-2 pure--text">
                       Sign up
-                      <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                      </span>
                     </v-btn>
                   </v-flex>
                 </v-layout>
@@ -109,7 +105,6 @@
     },
     computed: {
       ...mapGetters({
-        loading: 'loading',
         user_key: 'user_key',
         users: 'allUsers'
       }),
@@ -142,7 +137,7 @@
           username: this.username,
           father_id: this.father_id,
           level: this.level,
-          avatar: 'https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/avatar.jpg?alt=media&token=1a14dc97-4699-4314-a2d6-61b2ed6fd6f6'
+          avatar: 'https://firebasestorage.googleapis.com/v0/b/pyramid-746b4.appspot.com/o/avatar.jpg?alt=media&token=91791231-62cc-4bc3-93ad-59a9c081a77f'
         })
       }
     },

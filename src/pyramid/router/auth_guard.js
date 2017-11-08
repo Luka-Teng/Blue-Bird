@@ -4,6 +4,6 @@ export default (to, from, next) => {
   if (store.getters.user_key) {
     next()
   } else {
-    next('/signIn')
+    next('/pyramid/signIn')
   }
 }

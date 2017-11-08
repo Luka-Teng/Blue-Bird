@@ -50,7 +50,6 @@ export default {
             return userId
           }).catch((error) => {
             commit('setError', error)
-            console.log(error)
             return firebase.auth().currentUser.delete().then(() => {
               return null
             })
@@ -63,7 +62,6 @@ export default {
         .catch(error => {
           commit('setLoading', false)
           commit('setError', error)
-          console.log(error)
         })
     },
     signUserIn ({commit}, payload) {
@@ -80,7 +78,6 @@ export default {
         .catch(error => {
           commit('setLoading', false)
           commit('setError', error)
-          console.log(error)
         })
     },
     autoSignIn ({commit}, payload) {
@@ -108,7 +105,6 @@ export default {
         })
         .catch(error => {
           commit('setError', error)
-          console.log(error)
         })
     },
     loadUsers ({commit}) {
@@ -133,7 +129,6 @@ export default {
         })
         .catch(error => {
           commit('setError', error)
-          console.log(error)
         })
     },
     logout ({commit}) {
@@ -145,7 +140,6 @@ export default {
         })
         .catch((error) => {
           commit('setError', error)
-          console.log(error)
         })
     },
     uploadAvatar ({commit}, payload) {
@@ -167,7 +161,6 @@ export default {
       .catch(error => {
         commit('setError', error)
         commit('setLoading', false)
-        console.log(error)
       })
     }
   }

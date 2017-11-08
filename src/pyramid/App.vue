@@ -1,5 +1,6 @@
 <template>
 	<v-app>
+		<loading></loading>
 		<v-navigation-drawer
 			v-model="sideNav"
 			permanent

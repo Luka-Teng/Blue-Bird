@@ -88,7 +88,7 @@
                 label: {
                   normal: {
                     show: true,
-                    position: 'bottom',
+                    position: 'left',
                     color: '#888',
                     fontSize: 15,
                     offset: [0,5]

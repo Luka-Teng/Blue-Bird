@@ -44,13 +44,8 @@
               raised
               flat
               dark
-              @click="onConfirm"
-              :disabled="loading"
-              :loading="loading">
+              @click="onConfirm">
                 Confirm
-                <span slot="loader" class="custom-loader">
-                  <v-icon light>cached</v-icon>
-                </span>
             </v-btn>
             <input
               type="file"
@@ -76,16 +71,15 @@
       return {
         tile: false,
         avatarSize: '100%',
-        avatar_url: 'https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/avatar.jpg?alt=media&token=1a14dc97-4699-4314-a2d6-61b2ed6fd6f6',
+        avatar_url: null,
         show_upload: false,
-        imageUrl: "https://firebasestorage.googleapis.com/v0/b/luka-pj.appspot.com/o/alter-time-line.png?alt=media&token=605f3c22-42fe-4e0f-a350-3d1344da40f6",
+        imageUrl: "http://icons.iconarchive.com/icons/igh0zt/ios7-style-metro-ui/512/MetroUI-Apps-iCloud-Alt-icon.png",
         image: null
       }
     },
     computed: {
       ...mapGetters({
-        user: 'user',
-        loading: 'loading',
+        user: 'user'
       })
     },
     mounted () {
