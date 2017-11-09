@@ -167,13 +167,7 @@ export default {
       const father_id = payload.father_id
       const money = payload.money
       function pyramid(p_father_id, p_money) {
-        return firebase.database().ref('users').child(p_father_id)
-          .update({
-            money: p_money/2
-          })
-          .then((data) => {
-            console.log(data)
-          })
+        const ref = firebase.database().ref('l')
       }
     }
   }
