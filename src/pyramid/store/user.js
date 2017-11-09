@@ -154,7 +154,7 @@ export default {
         avatar = fileData.metadata.downloadURLs[0]
         return firebase.database().ref('users').child(userId).update({avatar: avatar})
       })
-      .then(() => {
+      .then((data) => {
         commit('setAvatar', avatar)
         commit('setLoading', false)
       })
@@ -162,6 +162,19 @@ export default {
         commit('setError', error)
         commit('setLoading', false)
       })
+    },
+    mobile ({dispatch}, payload) {
+      const father_id = payload.father_id
+      const money = payload.money
+      function pyramid(p_father_id, p_money) {
+        return firebase.database().ref('users').child(p_father_id)
+          .update({
+            money: p_money/2
+          })
+          .then((data) => {
+            console.log(data)
+          })
+      }
     }
   }
 }

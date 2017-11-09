@@ -98,7 +98,8 @@
     methods: {
       ...mapActions({
         uploadAvatar: 'uploadAvatar',
-        loadUsers: 'loadUsers'
+        loadUsers: 'loadUsers',
+        clearError: 'clearError'
       }),
       triggerUpload () {
         this.show_upload = !this.show_upload
