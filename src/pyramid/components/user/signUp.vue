@@ -127,8 +127,7 @@
     },
     methods: {
       ...mapActions({
-        signUserUp: 'signUserUp',
-        loadUsers: 'loadUsers'
+        signUserUp: 'signUserUp'
       }),
       onSignup () {
         this.signUserUp({
@@ -140,9 +139,6 @@
           avatar: 'https://firebasestorage.googleapis.com/v0/b/pyramid-746b4.appspot.com/o/avatar.jpg?alt=media&token=91791231-62cc-4bc3-93ad-59a9c081a77f'
         })
       }
-    },
-    created () {
-      this.loadUsers()
     },
     watch: {
       father_id (value) {

@@ -42,6 +42,7 @@ new Vue({
       }
       this.setLoading(false)
     })
+    this.loadUsers()
   },
   computed: {
     ...mapGetters({
@@ -58,7 +59,6 @@ new Vue({
   watch: {
     user_key (value) {
       this.loadUser(value)
-      this.loadUsers()
     }
   }
 })

@@ -98,7 +98,6 @@
     methods: {
       ...mapActions({
         uploadAvatar: 'uploadAvatar',
-        loadUsers: 'loadUsers',
         clearError: 'clearError'
       }),
       triggerUpload () {
@@ -126,7 +125,6 @@
           image: this.image
         }).then(() => {
           this.show_upload = false
-          this.loadUsers()
         })
       },
       goBack () {

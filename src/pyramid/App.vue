@@ -86,13 +86,12 @@
 			items () {
 				let items = [
 					{ title: 'home', icon: 'home', link: 'home' },
-          { title: 'about', icon: 'developer_board', link: 'about' }
         ]
 				if (this.isLoggedIn) {
 					items = [
 						{ title: 'home', icon: 'home', link: 'home' },
 	          { title: 'Profile', icon: 'account_box', link: 'profile' },
-						{ title: 'about', icon: 'developer_board', link: 'about' }
+						{ title: 'mobile', icon: 'developer_board', link: 'mobile' }
 	        ]
 				}
 				return items

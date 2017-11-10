@@ -4,7 +4,7 @@ import signUp from './../components/user/signUp'
 import signIn from './../components/user/signIn'
 import profile from './../components/user/profile'
 import home from './../components/home'
-import about from './../components/about'
+import mobile from './../components/mobile'
 import AuthGuard from './auth_guard'
 
 Vue.use(Router)
@@ -28,9 +28,9 @@ const router = new Router({
       component: signIn
     },
     {
-      path: '/pyramid/about',
-      name: 'about',
-      component: about
+      path: '/pyramid/mobie',
+      name: 'mobile',
+      component: mobile
     },
     {
       path: '/pyramid/profile',

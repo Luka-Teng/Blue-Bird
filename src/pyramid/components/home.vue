@@ -20,9 +20,6 @@
       })
     },
     methods: {
-      ...mapActions({
-        loadUsers: 'loadUsers'
-      }),
       drawChart () {
         // 指定图表的配置项和数据
         const users = this.allUsers
@@ -35,7 +32,7 @@
           let level = level_map[key]
           level.forEach((level_2, index_2) => {
             nodes.push({
-              name: level_2.name,
+              name: level_2.name+" : "+level_2.money,
               y: index * 50,
               x: 100 * index_2 - (level.length-1) * 100 / 2,
               value: level_2.level,
