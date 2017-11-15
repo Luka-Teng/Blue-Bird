@@ -45,12 +45,18 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 // })
 
 //router config
-var router = express.Router()
+var router_1 = express.Router()
+var router_2 = express.Router()
 var pyramid_path = path.resolve(__dirname, '../template/pyramid/index.html')
-router.use(function(req,res,next){
+var basicGame_path = path.resolve(__dirname, '../template/basicGame/index.html')
+router_1.use(function(req,res,next){
   res.sendFile(pyramid_path)
 });
-app.use('/pyramid', router)
+router_2.use(function(req,res,next){
+  res.sendFile(basicGame_path)
+});
+app.use('/pyramid', router_1)
+app.use('/basicGame', router_2)
 
 // enable hot-reload and state-preserving
 // compilation error display
