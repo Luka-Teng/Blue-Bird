@@ -2,7 +2,7 @@
 	<v-app>
 		<v-navigation-drawer
 			v-model="sideNav"
-			persistent
+			permanent
 			dark
       clipped
 			app
