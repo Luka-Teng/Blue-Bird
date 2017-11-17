@@ -32,13 +32,9 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn type="submit"
-                      :disabled="!isValid || loading"
-                      :loading="loading"
+                      :disabled="!isValid"
                       class="blue darken-2 pure--text">
                       Sign in
-                      <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                      </span>
                     </v-btn>
                   </v-flex>
                 </v-layout>
@@ -62,8 +58,7 @@
     },
     computed: {
       ...mapGetters({
-        loading: 'loading',
-        user: 'user'
+        user_key: 'user_key'
       }),
       isValid () {
         return this.email !== '' && this.password !== ''
@@ -78,10 +73,8 @@
       }
     },
     watch: {
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/')
-        }
+      user_key (value) {
+        this.$router.push('/pyramid')
       }
     }
   }

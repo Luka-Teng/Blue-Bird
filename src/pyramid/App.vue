@@ -1,5 +1,6 @@
 <template>
 	<v-app>
+		<loading></loading>
 		<v-navigation-drawer
 			v-model="sideNav"
 			permanent
@@ -11,6 +12,7 @@
 	      <v-list-tile
 					v-for="item in items"
 					:key="item.title"
+					class="nav-link"
 					:to="{ name: item.link}">
 	        <v-list-tile-action>
 	          <v-icon dark>{{ item.icon }}</v-icon>
@@ -76,21 +78,20 @@
 		},
 		computed: {
 			...mapGetters({
-				user: 'user'
+				user_key: 'user_key'
 			}),
 			isLoggedIn () {
-				return this.user !== null && this.user !== undefined
+				return this.user_key !== null && this.user_key !== undefined
 			},
 			items () {
 				let items = [
 					{ title: 'home', icon: 'home', link: 'home' },
-          { title: 'about', icon: 'developer_board', link: 'about' }
         ]
 				if (this.isLoggedIn) {
 					items = [
 						{ title: 'home', icon: 'home', link: 'home' },
 	          { title: 'Profile', icon: 'account_box', link: 'profile' },
-						{ title: 'about', icon: 'developer_board', link: 'about' }
+						{ title: 'mobile', icon: 'developer_board', link: 'mobile' }
 	        ]
 				}
 				return items
@@ -105,7 +106,10 @@
 </script>
 
 <style>
-.application--light a {
-  color: #444;
+.nav-link>a.router-link-exact-active {
+	color: #444 !important;
+}
+.nav-link>a:not(.router-link-exact-active) {
+	color: #fff !important;
 }
 </style>

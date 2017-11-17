@@ -4,36 +4,39 @@ import signUp from './../components/user/signUp'
 import signIn from './../components/user/signIn'
 import profile from './../components/user/profile'
 import home from './../components/home'
-import about from './../components/about'
+import mobile from './../components/mobile'
+import AuthGuard from './auth_guard'
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
-      path: 'signUp',
+      path: '/pyramid/signUp',
       name: 'signUp',
       component: signUp
     },
     {
-      path: '/',
+      path: '/pyramid',
       name: 'home',
       component: home
     },
     {
-      path: 'signIn',
+      path: '/pyramid/signIn',
       name: 'signIn',
       component: signIn
     },
     {
-      path: 'about',
-      name: 'about',
-      component: about
+      path: '/pyramid/mobie',
+      name: 'mobile',
+      component: mobile
     },
     {
-      path: 'profile',
+      path: '/pyramid/profile',
       name: 'profile',
-      component: profile
+      component: profile,
+      beforeEnter: AuthGuard
     }
   ]
 })

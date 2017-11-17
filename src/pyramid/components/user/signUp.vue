@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-layout row>
+  <v-container fluid>
+    <v-layout row wrap>
       <v-flex xs9>
         <v-card>
           <v-card-text>
@@ -53,23 +53,30 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-text-field
+                    <v-select
                       name="father_id"
                       label="Father ID"
                       id="father_id"
-                      v-model="father_id"></v-text-field>
+                      :items="select_items"
+                      v-model="father_id"></v-select>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      name="level"
+                      label="Level"
+                      id="level"
+                      v-model="level"
+                      disabled></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn type="submit"
-                      :disabled="!isValid || loading"
-                      :loading="loading"
+                      :disabled="!isValid"
                       class="blue darken-2 pure--text">
                       Sign up
-                      <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                      </span>
                     </v-btn>
                   </v-flex>
                 </v-layout>
@@ -84,6 +91,7 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import * as firbase from 'firebase'
   export default {
     data () {
       return {
@@ -91,19 +99,30 @@
         email: '',
         password: '',
         confirmPassword: '',
-        father_id: ''
+        father_id: '',
+        level: ''
       }
     },
     computed: {
       ...mapGetters({
-        loading: 'loading',
-        user: 'user'
+        user_key: 'user_key',
+        users: 'allUsers'
       }),
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
       },
       isValid () {
         return this.email !== '' && this.password !== '' && this.confirmPassword !== '' && this.comparePasswords === ''
+      },
+      select_items () {
+        if (this.users){
+          return this.users.map((item) => {
+            return {
+              text: item.id + ' / ' + item.name + ' / ' + item.level,
+              value: item.id
+            }
+          })
+        }
       }
     },
     methods: {
@@ -115,8 +134,20 @@
           email: this.email,
           password: this.password,
           username: this.username,
-          father_id: this.father_id
+          father_id: this.father_id,
+          level: this.level,
+          avatar: 'https://firebasestorage.googleapis.com/v0/b/pyramid-746b4.appspot.com/o/avatar.jpg?alt=media&token=91791231-62cc-4bc3-93ad-59a9c081a77f'
         })
+      }
+    },
+    watch: {
+      father_id (value) {
+        this.level = parseInt(this.users.find((user) => {
+          return user.id === value
+        }).level) + 1
+      },
+      user_key (value) {
+        this.$router.push('/pyramid')
       }
     }
   }

@@ -12,6 +12,7 @@ const express = require('express')
 const webpack = require('webpack')
 const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfig = require('./webpack.dev.conf')
+const fs = require("fs")
 
 // default port where dev server listens for incoming traffic
 const port = process.env.PORT || config.dev.port
@@ -42,6 +43,20 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 //     cb()
 //   })
 // })
+
+//router config
+var router_1 = express.Router()
+var router_2 = express.Router()
+var pyramid_path = path.resolve(__dirname, '../template/pyramid/index.html')
+var basicGame_path = path.resolve(__dirname, '../template/basicGame/index.html')
+router_1.use(function(req,res,next){
+  res.sendFile(pyramid_path)
+});
+router_2.use(function(req,res,next){
+  res.sendFile(basicGame_path)
+});
+app.use('/pyramid', router_1)
+app.use('/basicGame', router_2)
 
 // enable hot-reload and state-preserving
 // compilation error display

@@ -1,0 +1,8 @@
+{
+  "name": "basicGame",
+  "title": "basicGame",
+  "author": "Luka",
+  "entry": "index.js",
+  "template": "index.html",
+  "filename": "index.html"
+}
