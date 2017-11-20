@@ -14,9 +14,11 @@ export default {
     return {
       action: 'hero_idel',
       movementX: 0,
-      speed: 10,
+      speed: 1,
       keysDown: {},
-      updates: {}
+      updates: {},
+      runningLeft: false,
+      runningRight: false
     }
   },
   methods: {
@@ -24,24 +26,37 @@ export default {
       switch (keyCode) {
         case 37:
           this.action = 'hero_walking back'
+          this.runningLeft = true
           this.updates[keyCode] = new update(() => {
-            this.movementX--
+            this.movementX = this.movementX - parseFloat(this.speed)
           })
           break
         case 39:
           this.action = 'hero_walking'
+          this.runningRight = true
           this.updates[keyCode] = new update(() => {
-            this.movementX++
+            this.movementX = this.movementX + parseFloat(this.speed)
           })
+
       }
     },
     keysUpEvent (keyCode) {
       switch (keyCode) {
         case 37:
-          this.action = 'hero_idel back'
+          this.runningLeft = false
+          if (this.runningRight) {
+            this.action = 'hero_walking'
+          } else {
+            this.action = 'hero_idel back'
+          }
           break
         case 39:
-          this.action = 'hero_idel'
+          this.runningRight = false
+          if (this.runningLeft) {
+            this.action = 'hero_walking back'
+          } else {
+            this.action = 'hero_idel'
+          }
       }
       if (this.updates[keyCode]) {
         this.updates[keyCode].remove()
@@ -50,17 +65,16 @@ export default {
     }
   },
   mounted () {
-    let vm = this
-    window.addEventListener("keydown",function(e){
-      if (!vm.keysDown[e.keyCode]) {
-        vm.keysDownEvent(e.keyCode)
-        vm.keysDown[e.keyCode] = true
+    window.addEventListener("keydown", (e) => {
+      if (!this.keysDown[e.keyCode]) {
+        this.keysDownEvent(e.keyCode)
+        this.keysDown[e.keyCode] = true
       }
     })
-    window.addEventListener("keyup",function(e){
-      if (vm.keysDown[e.keyCode]) {
-        vm.keysUpEvent(e.keyCode)
-        delete vm.keysDown[e.keyCode]
+    window.addEventListener("keyup", (e) => {
+      if (this.keysDown[e.keyCode]) {
+        this.keysUpEvent(e.keyCode)
+        delete this.keysDown[e.keyCode]
       }
     })
   }
