@@ -45,7 +45,7 @@ export default {
   .hero_idel {
     width: 60px;
     height: 80px;
-    background-image: url(/static/img/hero.128cd6d.jpg);
+    background-image: url(./../assets/hero.jpg);
     background-position: 8% 3%;
   }
   .hero_idel.back {
@@ -54,7 +54,7 @@ export default {
   .hero_walking {
     width: 60px;
     height: 80px;
-    background-image: url(/static/img/hero.128cd6d.jpg);
+    background-image: url(./../assets/hero.jpg);
     background-position: 41% 3%;
   }
   .hero_walking.back {
