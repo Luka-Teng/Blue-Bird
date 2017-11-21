@@ -22,6 +22,7 @@ export default {
       movementY: 0.0,
       speed: 50.0,
       velocityY: 0.0,
+      velocityX: 0.0,
       g: 400,
       force: 1500.0,
       keysDown: {},
@@ -31,9 +32,6 @@ export default {
     }
   },
   computed: {
-    velocityX () {
-      return isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
-    },
     g_toFloat () {
       return isNaN(this.g) || this.g === '' ? 0.0 : parseFloat(this.g)
     },
@@ -47,6 +45,7 @@ export default {
         case 37:
           this.action = 'hero_walking back'
           this.runningLeft = true
+          this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
           this.updates[keyCode] = new update(() => {
             this.movementX = this.movementX - this.velocityX / 10
           }, 'keypress')
@@ -54,6 +53,7 @@ export default {
         case 39:
           this.action = 'hero_walking'
           this.runningRight = true
+          this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
           this.updates[keyCode] = new update(() => {
             this.movementX = this.movementX + this.velocityX / 10
           }, 'keypress')
@@ -69,6 +69,7 @@ export default {
       switch (keyCode) {
         case 37:
           this.runningLeft = false
+          this.velocityX = 0
           if (this.runningRight) {
             this.action = 'hero_walking'
           } else {
@@ -77,6 +78,7 @@ export default {
           break
         case 39:
           this.runningRight = false
+          this.velocityX = 0
           if (this.runningLeft) {
             this.action = 'hero_walking back'
           } else {
