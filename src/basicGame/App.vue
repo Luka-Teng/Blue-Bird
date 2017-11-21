@@ -2,7 +2,9 @@
 	<div>
 		<hero></hero>
 		<span id='fps'></span>
-		<div id="ground"></div>
+		<div class="ground" style="top:233px"></div>
+		<div class="ground" style="top:433px"></div>
+		<div class="ground" style="top:633px"></div>
 	</div>
 </template>
 
@@ -26,12 +28,11 @@ export default {
 	background: #aaa;
 	color: #fff;
 }
-#ground{
+.ground{
 	 width: 500px;
 	 height: 100px;
 	 border: 1px solid #999;
 	 background: #eee;
 	 position: absolute;
-	 top: 333px;
 }
 </style>

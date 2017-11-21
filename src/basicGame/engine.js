@@ -20,6 +20,15 @@ export const adjustCollision = function (alpha, beta, where, callback) {
   if (where === 'top') {
     const value = getStyle(beta, 'top') - getStyle(alpha, 'height') + 1
     callback(value)
+  } else if (where === 'bottom') {
+    const value = getStyle(beta, 'top') + getStyle(beta, 'height') + 1
+    callback(value)
+  } else if (where === 'left') {
+    const value = getStyle(beta, 'left') - getStyle(alpha, 'width') - 1
+    callback(value)
+  } else if (where === 'right') {
+    const value = getStyle(beta, 'left') + getStyle(beta, 'width') + 1
+    callback(value)
   }
 }
 function getStyle(obj, attribute) {

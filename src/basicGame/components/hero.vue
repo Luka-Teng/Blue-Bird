@@ -22,7 +22,7 @@ export default {
       movementY: 0.0,
       speed: 30.0,
       velocityY: 0.0,
-      g: 150,
+      g: 0,
       force: 1000.0,
       keysDown: {},
       updates: {},
@@ -103,21 +103,26 @@ export default {
       }
     })
     //初始化
-    let data = {
-      where : null
+    const collisions =  document.getElementsByClassName("ground")
+    let data = []
+    for (let i = 0 ; i < collisions.length ; i++) {
+      data[i] = {}
     }
     let init = new update(() => {
-      const collision = impact(this.$refs.hero, document.getElementById("ground"), data)
-      if (collision) {
-        if (data.where === 'top') {
-          this.velocityY = 0.0
+      this.velocityY += this.g_toFloat / 60
+      this.movementY += this.velocityY / 10
+      for (let i = 0 ; i < collisions.length ; i++) {
+        const collision = impact(this.$refs.hero, collisions[i], data[i])
+        if (collision) {
+          if (data[i].where === 'top' || data[i].where === 'bottom') this.velocityY = 0.0
+          adjustCollision(this.$refs.hero, collisions[i], data[i].where, (value) => {
+            if (data[i].where === 'top' ||data[i].where === 'bottom') {
+              this.movementY = value
+            } else if (data[i].where === 'left' || data[i].where === 'right') {
+              this.movementX = value
+            }
+          })
         }
-        adjustCollision(this.$refs.hero, document.getElementById("ground"), data.where, (value) => {
-          this.movementY = value
-        })
-      } else {
-        this.velocityY += this.g_toFloat / 60
-        this.movementY += this.velocityY / 10
       }
     }, 'init press')
   }
