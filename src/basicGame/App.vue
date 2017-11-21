@@ -2,6 +2,7 @@
 	<div>
 		<hero></hero>
 		<span id='fps'></span>
+		<div id="ground"></div>
 	</div>
 </template>
 
@@ -24,5 +25,13 @@ export default {
 	border-radius: 10px;
 	background: #aaa;
 	color: #fff;
+}
+#ground{
+	 width: 500px;
+	 height: 100px;
+	 border: 1px solid #999;
+	 background: #eee;
+	 position: absolute;
+	 top: 333px;
 }
 </style>

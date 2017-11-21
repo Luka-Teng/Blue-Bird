@@ -1,24 +1,44 @@
 <template>
   <div>
-    <div :class="action" :style="{position: 'absolute', left: movementX+'px'}">
+    <div :class="action"
+      :style="{position: 'absolute', left: movementX+'px', top: movementY+'px'}"
+      ref="hero"
+      id="hero" >
     </div>
-    <input v-model="speed">
+    <label>Speed</label><input v-model="speed">
+    <label>Gravity</label><input v-model="g">
+    <label>jumping force</label><input v-model="force">
   </div>
 </template>
 
 <script>
-import { update } from './../engine'
+import { update, impact, adjustCollision } from './../engine'
 export default {
   name: 'hero',
   data () {
     return {
       action: 'hero_idel',
-      movementX: 0,
-      speed: 1,
+      movementX: 0.0,
+      movementY: 0.0,
+      speed: 30.0,
+      velocityY: 0.0,
+      g: 150,
+      force: 1000.0,
       keysDown: {},
       updates: {},
       runningLeft: false,
       runningRight: false
+    }
+  },
+  computed: {
+    velocityX () {
+      return isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
+    },
+    g_toFloat () {
+      return isNaN(this.g) || this.g === '' ? 0.0 : parseFloat(this.g)
+    },
+    force_toFloat () {
+      return isNaN(this.force) || this.force === '' ? 0.0 : parseFloat(this.force)
     }
   },
   methods: {
@@ -28,16 +48,21 @@ export default {
           this.action = 'hero_walking back'
           this.runningLeft = true
           this.updates[keyCode] = new update(() => {
-            this.movementX = this.movementX - parseFloat(this.speed)
-          })
+            this.movementX = this.movementX - this.velocityX / 10
+          }, 'keypress')
           break
         case 39:
           this.action = 'hero_walking'
           this.runningRight = true
           this.updates[keyCode] = new update(() => {
-            this.movementX = this.movementX + parseFloat(this.speed)
-          })
-
+            this.movementX = this.movementX + this.velocityX / 10
+          }, 'keypress')
+          break
+        case 67:
+        new update(() => {
+          this.velocityY = -this.force_toFloat / 10
+          this.movementY -= 2
+        }, 1)
       }
     },
     keysUpEvent (keyCode) {
@@ -77,6 +102,24 @@ export default {
         delete this.keysDown[e.keyCode]
       }
     })
+    //初始化
+    let data = {
+      where : null
+    }
+    let init = new update(() => {
+      const collision = impact(this.$refs.hero, document.getElementById("ground"), data)
+      if (collision) {
+        if (data.where === 'top') {
+          this.velocityY = 0.0
+        }
+        adjustCollision(this.$refs.hero, document.getElementById("ground"), data.where, (value) => {
+          this.movementY = value
+        })
+      } else {
+        this.velocityY += this.g_toFloat / 60
+        this.movementY += this.velocityY / 10
+      }
+    }, 'init press')
   }
 }
 </script>
