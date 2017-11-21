@@ -2,9 +2,9 @@
 	<div>
 		<hero></hero>
 		<span id='fps'></span>
-		<div class="ground" style="top:233px"></div>
-		<div class="ground" style="top:433px"></div>
-		<div class="ground" style="top:633px"></div>
+		<div class="ground" style="top:233px;left:0px"></div>
+		<div class="ground" style="top:433px;left:0px"></div>
+		<div class="ground" style="top:633px;left:0px"></div>
 	</div>
 </template>
 
