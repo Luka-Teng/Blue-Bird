@@ -25,7 +25,6 @@ export default {
       keysDown: {},
       updates: {},
       runningLeft: false,
-      runningRight: false,
       inAir: false,
       bullets: []
     }
@@ -46,13 +45,11 @@ export default {
     addBullet () {
       const bullet = {
         key: Math.random(),
-        top: Math.floor(Math.random()*300) + 'px',
-        left: Math.floor(Math.random()*300) + 'px'
+        top: this.movementY + 40 + 'px',
+        left: this.movementX + 30 + 'px'
       }
       this.bullets.push(bullet)
-      setTimeout(() => {
-        this.bullets.splice(this.bullets.indexOf(bullet),1)
-      },1000)
+
     },
     keysDownEvent (keyCode) {
       switch (keyCode) {

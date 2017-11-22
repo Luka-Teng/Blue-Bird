@@ -3,6 +3,7 @@
 </template>
 
 <script>
+  import { update } from './../engine'
   export default {
     props: ['vTop', 'vLeft']
   }
