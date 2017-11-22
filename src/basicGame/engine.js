@@ -63,7 +63,7 @@ export const impact = function (alpha, beta, data) {
 }
 
 //根据浏览器刷新率进行渲染
-let fps = 60;
+let fps = 30;
 let now;
 let startTime = null;
 let interval = 1000/fps;

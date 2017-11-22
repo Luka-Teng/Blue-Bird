@@ -31,9 +31,9 @@ import wall from './components/wall'
 export default {
 	data () {
 		return {
-			speed: 50.0,
-			force: 1500.0,
-			g: 400.0
+			speed: 100.0,
+			force: 3000.0,
+			g: 1600.0
 		}
 	},
 	components: {
