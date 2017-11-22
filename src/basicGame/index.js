@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import { update } from './engine'
-
+import './style/general.css'
 
 Vue.config.productionTip = false
 

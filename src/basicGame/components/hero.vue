@@ -5,32 +5,35 @@
       ref="hero"
       id="hero" >
     </div>
-    <label>Speed</label><input v-model="speed">
-    <label>Gravity</label><input v-model="g">
-    <label>jumping force</label><input v-model="force">
+    <bullet v-for="bullet in bullets" :key="bullet.key" :vTop="bullet.top" :vLeft="bullet.left">
+    </bullet>
   </div>
 </template>
 
 <script>
 import { update, impact, adjustCollision } from './../engine'
+import bullet from './bullet'
 export default {
   name: 'hero',
   data () {
     return {
       action: 'hero_idel',
-      movementX: 0.0,
+      movementX: 100.0,
       movementY: 0.0,
-      speed: 50.0,
       velocityY: 0.0,
       velocityX: 0.0,
-      g: 400,
-      force: 1500.0,
       keysDown: {},
       updates: {},
       runningLeft: false,
-      runningRight: false
+      runningRight: false,
+      inAir: false,
+      bullets: []
     }
   },
+  components: {
+    bullet
+  },
+  props: ['speed', 'g', 'force'],
   computed: {
     g_toFloat () {
       return isNaN(this.g) || this.g === '' ? 0.0 : parseFloat(this.g)
@@ -40,29 +43,46 @@ export default {
     }
   },
   methods: {
+    addBullet () {
+      const bullet = {
+        key: Math.random(),
+        top: Math.floor(Math.random()*300) + 'px',
+        left: Math.floor(Math.random()*300) + 'px'
+      }
+      this.bullets.push(bullet)
+      setTimeout(() => {
+        this.bullets.splice(this.bullets.indexOf(bullet),1)
+      },1000)
+    },
     keysDownEvent (keyCode) {
       switch (keyCode) {
         case 37:
           this.action = 'hero_walking back'
           this.runningLeft = true
-          this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
           this.updates[keyCode] = new update(() => {
+            this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
             this.movementX = this.movementX - this.velocityX / 10
           }, 'keypress')
           break
         case 39:
           this.action = 'hero_walking'
           this.runningRight = true
-          this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
           this.updates[keyCode] = new update(() => {
+            this.velocityX = isNaN(this.speed) || this.speed === '' ? 0.0 : parseFloat(this.speed)
             this.movementX = this.movementX + this.velocityX / 10
           }, 'keypress')
           break
         case 67:
-        new update(() => {
-          this.velocityY = -this.force_toFloat / 10
-          this.movementY -= 2
-        }, 1)
+          if (this.inAir === false) {
+            new update(() => {
+              this.velocityY = -this.force_toFloat / 10
+              this.movementY -= 2
+              this.inAir = true
+            }, 1)
+          }
+          break
+        case 88:
+          this.addBullet()
       }
     },
     keysUpEvent (keyCode) {
@@ -105,7 +125,7 @@ export default {
       }
     })
     //初始化
-    const collisions =  document.getElementsByClassName("ground")
+    const collisions =  document.getElementsByClassName("collision")
     let data = []
     for (let i = 0 ; i < collisions.length ; i++) {
       data[i] = {}
@@ -116,6 +136,7 @@ export default {
       for (let i = 0 ; i < collisions.length ; i++) {
         const collision = impact(this.$refs.hero, collisions[i], data[i])
         if (collision) {
+          if (data[i].where === 'top') this.inAir = false
           if (data[i].where === 'top' || data[i].where === 'bottom') this.velocityY = 0.0
           adjustCollision(this.$refs.hero, collisions[i], data[i].where, (value) => {
             if (data[i].where === 'top' ||data[i].where === 'bottom') {
@@ -136,7 +157,7 @@ export default {
   .hero_idel {
     width: 60px;
     height: 80px;
-    background-image: url(./../assets/hero.jpg);
+    background-image: url(./../assets/hero.png);
     background-position: 8% 3%;
   }
   .hero_idel.back {
@@ -145,7 +166,7 @@ export default {
   .hero_walking {
     width: 60px;
     height: 80px;
-    background-image: url(./../assets/hero.jpg);
+    background-image: url(./../assets/hero.png);
     background-position: 41% 3%;
   }
   .hero_walking.back {
