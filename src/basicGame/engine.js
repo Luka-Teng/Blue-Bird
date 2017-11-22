@@ -1,5 +1,4 @@
 //游戏中定义，6px = 1m, 60f = 1s, 故 x m/s = x/10 px/f, a m/s2 = a/60 px/f2
-let startTime = null
 let showFps = 30
 
 //同步函数渲染队列
@@ -64,20 +63,30 @@ export const impact = function (alpha, beta, data) {
 }
 
 //根据浏览器刷新率进行渲染
-function draw(timestamp){
- if (!startTime) startTime = timestamp
- var diff = timestamp - startTime
- if (document.getElementById('fps') && showFps === 0) {
-   document.getElementById('fps').innerHTML = (1000/diff).toFixed(0) + 'fps'
-   showFps = 30
- } else {
-   showFps--
- }
- startTime = timestamp
- functionList.forEach((fuc) => {
-   fuc.callback()
-   if (fuc.type === 1) fuc.remove()
- })
- requestAnimationFrame(draw)
+let fps = 60;
+let now;
+let startTime = null;
+let interval = 1000/fps;
+let delta;
+function draw() {
+  functionList.forEach((fuc) => {
+    fuc.callback()
+    if (fuc.type === 1) fuc.remove()
+  })
 }
-requestAnimationFrame(draw)
+function tick(timestamp){
+  requestAnimationFrame(tick)
+  if (!startTime) startTime = timestamp
+  delta = timestamp - startTime;
+  if (delta > interval) {
+    if (document.getElementById('fps') && showFps === 0) {
+      document.getElementById('fps').innerHTML = (1000/delta).toFixed(0) + 'fps'
+      showFps = 30
+    } else {
+      showFps--
+    }
+    startTime = timestamp;
+    draw(); // ... Code for Drawing the Frame ...
+  }
+}
+requestAnimationFrame(tick)
