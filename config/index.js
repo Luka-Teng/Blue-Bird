@@ -46,7 +46,7 @@ const config = {
   }
 }
 
-var blacklist = ['.DS_Store', 'common'] // 黑名单中的项目不会被获取
+var blacklist = ['.DS_Store', 'common', 'pyramid'] // 黑名单中的项目不会被获取
 var srcPath = path.resolve(__dirname, '../src')
 var dirs = fs.readdirSync(srcPath)
 
